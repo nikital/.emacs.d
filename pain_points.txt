@@ -1,0 +1,16 @@
+- Magit
+- _ is a word bound
+- i_ctrl-p is not good enough (no popup, not vim like)
+- tss is broken with multiple files
+- i_ctrl-u not behaving like Vim? I'm not sure I want it.
+- Surround
+- cgn
+- Fuzzy completions
+- My whole thing with hlsearch
+- Company mode?
+- {} autocomplete
+- gp, gP
+- registers
+- `"
+- this.mecha completes to this.Mechanics. I don't want capitalitation.
+- comments
