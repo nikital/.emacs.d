@@ -14,4 +14,4 @@
 - `"
 - this.mecha completes to this.Mechanics. I don't want capitalitation.
 - comments
-- c-j is treated as a repeat
+- c-j is treated as a repeatable action

@@ -12,9 +12,6 @@
 
 (defvar my-packages '(evil
                       linum-relative
-                      auto-complete
-                      typescript-mode tss
-                      markdown-mode
                       web-mode))
 (if (eq system-type 'darwin)
     (add-to-list 'my-packages 'exec-path-from-shell))
@@ -60,6 +57,9 @@
 (require 'linum-relative)
 (global-linum-mode)
 
+(setq scroll-step 1
+      scroll-conservatively 100000)
+
 (setq create-lockfiles nil)
 (setq backup-inhibited t)
 (setq auto-save-default nil)
@@ -82,13 +82,6 @@
 
 (setq apropos-sort-by-scores t)
 
-(require 'auto-complete)
-(ac-config-default)
-
-(require 'tss)
-(setq tss-popup-help-key "C-:")
-(setq tss-jump-to-definition-key "C->")
-(tss-config-default)
-
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(put 'narrow-to-page 'disabled nil)
