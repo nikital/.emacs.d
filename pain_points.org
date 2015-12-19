@@ -1,0 +1,17 @@
+* Pain points
+    - Helm
+    - Magit
+    - _ is a word bound
+    - i_ctrl-p is not good enough (no popup, not vim like)
+    - i_ctrl-u not behaving like Vim? I'm not sure I want it.
+    - Surround
+    - cgn
+    - Fuzzy completions
+    - My whole thing with hlsearch
+    - Company mode? Autocompete?
+    - {} should autocomplete
+    - gp, gP
+    - registers
+    - `" (go to last place in file)
+    - this.mecha completes to this.Mechanics. I don't want capitalitation.
+    - comments (t-comment?)
