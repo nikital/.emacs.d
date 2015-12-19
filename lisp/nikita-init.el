@@ -59,10 +59,19 @@
   (linum-relative-global-mode))
 
 
-;;;;; Config editing
+;;;;; init.el, Config
 (bind-key "C-c i"
 	  (lambda () (interactive)
-	    (find-file-other-window "~/.emacs.d/lisp/nikita-init.el")))
+            (save-excursion
+              (find-file-existing "~/.emacs.d/lisp/nikita-init.el"))))
+
+(bind-key "C-c M-i"
+          (lambda () (interactive)
+            (save-excursion
+              (find-file-existing "~/.emacs.d/lisp/nikita-init.el")
+              (widen)
+              (helm-imenu)
+              (narrow-to-page))))
 
 
 ;;;;; Evil
@@ -92,14 +101,29 @@
   (evil-mode t))
 
 
-;;;;; Graphics
+;;;;; Graphics, Theme
 (load-theme 'tango-dark)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (tool-bar-mode -1)
 (show-paren-mode 1)
 
 
-;;;;; OS X
+;;;;; Helm
+(use-package helm
+  :ensure t
+  :config
+  (use-package helm-config))
+
+
+;;;;; imenu
+(defun nik--imenu-elisp-sections ()
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;;; \\(.+\\)$" 1) t))
+ 
+(add-hook 'emacs-lisp-mode-hook 'nik--imenu-elisp-sections)
+(bind-key "M-i" 'helm-imenu)
+
+
+;;;;; Mac OS X
 (use-package exec-path-from-shell
   :ensure t
   :if (eq window-system 'ns)
