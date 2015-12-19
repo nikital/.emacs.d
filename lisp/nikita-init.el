@@ -54,6 +54,7 @@
 (use-package linum-relative
   :ensure t
   :init
+  ;; Show current line number instead of zero
   (setq linum-relative-current-symbol "")
   :config
   (linum-relative-global-mode))
@@ -62,16 +63,12 @@
 ;;;;; init.el, Config
 (bind-key "C-c i"
 	  (lambda () (interactive)
-            (save-excursion
-              (find-file-existing "~/.emacs.d/lisp/nikita-init.el"))))
+            (find-file-existing "~/.emacs.d/lisp/nikita-init.el")))
 
 (bind-key "C-c M-i"
           (lambda () (interactive)
-            (save-excursion
-              (find-file-existing "~/.emacs.d/lisp/nikita-init.el")
-              (widen)
-              (helm-imenu)
-              (narrow-to-page))))
+            (find-file-existing "~/.emacs.d/lisp/nikita-init.el")
+            (helm-imenu)))
 
 
 ;;;;; Evil
@@ -112,7 +109,8 @@
 (use-package helm
   :ensure t
   :config
-  (use-package helm-config))
+  (use-package helm-config)
+  (bind-key "M-x" 'helm-M-x))
 
 
 ;;;;; imenu
@@ -130,3 +128,12 @@
   :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("PATH")))
+
+
+;;;;; Lisp, Paredit
+(use-package paredit
+  :ensure t
+  :config
+  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode))
