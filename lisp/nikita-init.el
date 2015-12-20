@@ -33,6 +33,8 @@
 
 (setq-default indent-tabs-mode nil)
 
+(electric-pair-mode 1)
+
 
 ;;;;; Ido
 (use-package ido
@@ -46,8 +48,7 @@
   :bind
   ("C-x C-g" . ido-switch-buffer)
   ("C-x g" . ido-switch-buffer-other-window)
-  ("C-x f" . ido-find-file-other-window)
-  )
+  ("C-x f" . ido-find-file-other-window))
 
 
 ;;;;; Linum
@@ -90,12 +91,19 @@
   (setq evil-want-fine-undo nil)
   :config
   (bind-key "RET" 'save-buffer evil-normal-state-map)
+  (bind-key "C-w q" 'evil-quit evil-normal-state-map)
   (bind-key "C-u" 'nik--evil-c-u evil-insert-state-map)
+  (bind-key "C-e" 'end-of-line evil-insert-state-map)
 
   (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-normal-state-map))
   (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-normal-state-map))
 
   (evil-mode t))
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 
 ;;;;; Graphics, Theme
@@ -137,3 +145,14 @@
   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode))
+
+
+;;;;; CC mode
+(use-package cc-mode
+  :config
+  (add-to-list 'c-default-style '(other . "stroustrup")))
+
+
+;;;;; Magit
+(use-package magit
+  :ensure t)
