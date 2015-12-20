@@ -1,4 +1,4 @@
-* Pain points
+* Pain points [4/17]
     - [X] Helm
     - [X] Magit
     - [ ] Magit bind to leader
