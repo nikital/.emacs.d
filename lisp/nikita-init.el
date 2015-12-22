@@ -32,6 +32,7 @@
 (setq apropos-sort-by-scores t)
 
 (setq-default indent-tabs-mode nil)
+(setq sentence-end-double-space nil)
 
 (electric-pair-mode 1)
 
@@ -70,6 +71,10 @@
           (lambda () (interactive)
             (find-file-existing "~/.emacs.d/lisp/nikita-init.el")
             (helm-imenu)))
+
+(bind-key "C-c p"
+	  (lambda () (interactive)
+            (find-file-existing "~/.emacs.d/pain_points.org")))
 
 
 ;;;;; Evil
@@ -129,6 +134,11 @@
 (bind-key "M-i" 'helm-imenu)
 
 
+;;;;; Clipboard
+(setq interprogram-cut-function nil)
+(setq interprogram-paste-function nil)
+
+
 ;;;;; Mac OS X
 (use-package exec-path-from-shell
   :ensure t
@@ -145,6 +155,16 @@
   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode))
+
+(evil-define-operator evil-eval (beg end type)
+  "Evals the code in motion"
+  :move-point nil
+  :repeat nil
+  (interactive "<R>")
+  (eval-region beg end)
+  (message "Evaluated region"))
+(define-key evil-normal-state-map "gr" 'evil-eval)
+(define-key evil-motion-state-map "gr" 'evil-eval)
 
 
 ;;;;; CC mode

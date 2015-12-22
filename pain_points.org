@@ -1,4 +1,4 @@
-* Pain points [4/17]
+* Pain points [4/21]
     - [X] Helm
     - [X] Magit
     - [ ] Magit bind to leader
@@ -16,3 +16,10 @@
     - [ ] `" (go to last place in file)
     - [ ] this.mecha completes to this.Mechanics. I don't want capitalitation.
     - [ ] comments (t-comment?)
+    - [ ] Folding (zf)
+    - [ ] Paredit overrides C-j in *scratch*
+    - [ ] C-Backspace on an empty line should kill whitespace and not word?
+    - [ ] Exit evil mode when entering edebug
+
+* Learn
+  - https://www.youtube.com/channel/UCDdsnYIWMsju4eomOZ1TgpA
