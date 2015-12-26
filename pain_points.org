@@ -1,4 +1,4 @@
-* Pain points [4/21]
+* Pain points [5/22]
     - [X] Helm
     - [X] Magit
     - [ ] Magit bind to leader
@@ -12,7 +12,7 @@
     - [ ] Company mode? Autocompete?
     - [X] {} should autocomplete
     - [ ] gp, gP
-    - [ ] registers
+    - [X] registers
     - [ ] `" (go to last place in file)
     - [ ] this.mecha completes to this.Mechanics. I don't want capitalitation.
     - [ ] comments (t-comment?)
@@ -23,3 +23,4 @@
 
 * Learn
   - https://www.youtube.com/channel/UCDdsnYIWMsju4eomOZ1TgpA
+  - Paredit
