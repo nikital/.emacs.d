@@ -135,8 +135,40 @@
 
 
 ;;;;; Clipboard
-(setq interprogram-cut-function nil)
-(setq interprogram-paste-function nil)
+
+;; Evil mode clipboard behaves funny, because it works with the kill
+;; ring, which in turn interacts with the system clipboard on every
+;; operation. These hooks disable system clipboard when evil is
+;; running it's stuff.
+
+(defun evil-yank-advice (orig-func beg end &optional register yank-handler)
+  (if (and register
+           (memq register '(?+ ?*)))
+      (funcall orig-func beg end register yank-handler)
+    (let ((interprogram-cut-function nil)
+          (save-interprogram-paste-before-kill nil))
+      (funcall orig-func beg end register yank-handler))))
+
+(defun evil-paste-advice (orig-func &rest args)
+  (let ((interprogram-cut-function nil)
+        (interprogram-paste-function nil))
+    (apply orig-func args)))
+
+(defun evil-set-register-cliboard (register text)
+  (when (memq register '(?+ ?*))
+    (funcall interprogram-cut-function text)
+    t))
+
+(advice-add 'evil-yank-lines :around #'evil-yank-advice)
+(advice-add 'evil-yank-characters :around #'evil-yank-advice)
+(advice-add 'evil-yank-rectangle :around #'evil-yank-advice)
+
+(advice-add 'evil-paste-before :around #'evil-paste-advice)
+(advice-add 'evil-paste-after :around #'evil-paste-advice)
+(advice-add 'evil-visual-paste :around #'evil-paste-advice)
+
+(advice-add 'evil-set-register :before-until #'evil-set-register-cliboard)
+(advice-add 'evil-visual-update-x-selection :override #'ignore)
 
 
 ;;;;; Mac OS X
