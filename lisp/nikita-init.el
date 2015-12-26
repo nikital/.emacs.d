@@ -129,7 +129,7 @@
 ;;;;; imenu
 (defun nik--imenu-elisp-sections ()
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;;; \\(.+\\)$" 1) t))
- 
+
 (add-hook 'emacs-lisp-mode-hook 'nik--imenu-elisp-sections)
 (bind-key "M-i" 'helm-imenu)
 
@@ -140,6 +140,87 @@
 ;; ring, which in turn interacts with the system clipboard on every
 ;; operation. These hooks disable system clipboard when evil is
 ;; running it's stuff.
+
+;; Simpleclip has a function that can just get the content of the
+;; system clipboard. I don't want to pull the entire plugin, so I'll
+;; just paste the relevant functions here:
+;; github.com/rolandwalker/simpleclip
+;; 7079086ec09a148fcc9146ba9bd10e12fb011861
+
+;; MS Windows workaround - w32-get-clipboard-data returns nil
+;; when Emacs was the originator of the clipboard data.
+(defvar simpleclip-contents nil
+  "Value of most-recent cut or paste.")
+
+(defun simpleclip-get-contents ()
+  "Return the contents of the system clipboard as a string."
+  (condition-case nil
+      (cond
+        ((fboundp 'ns-get-pasteboard)
+         (ns-get-pasteboard))
+        ((fboundp 'w32-get-clipboard-data)
+         (or (w32-get-clipboard-data)
+             simpleclip-contents))
+        ((and (featurep 'mac)
+              (fboundp 'x-get-selection))
+         (x-get-selection 'CLIPBOARD 'NSStringPboardType))
+        ((fboundp 'x-get-selection)
+         (x-get-selection 'CLIPBOARD))
+        (t
+         (error "Clipboard support not available")))
+    (error
+     (condition-case nil
+         (cond
+           ((eq system-type 'darwin)
+            (with-output-to-string
+              (with-current-buffer standard-output
+                (call-process "/usr/bin/pbpaste" nil t nil "-Prefer" "txt"))))
+           ((eq system-type 'cygwin)
+            (with-output-to-string
+              (with-current-buffer standard-output
+                (call-process "getclip" nil t nil))))
+           ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+            (with-output-to-string
+              (with-current-buffer standard-output
+                (call-process "xsel" nil t nil "--clipboard" "--output"))))
+           (t
+            (error "Clipboard support not available")))
+       (error
+        (error "Clipboard support not available"))))))
+
+(defun simpleclip-set-contents (str-val)
+  "Set the contents of the system clipboard to STR-VAL."
+  (condition-case nil
+      (cond
+        ((fboundp 'ns-set-pasteboard)
+         (ns-set-pasteboard str-val))
+        ((fboundp 'w32-set-clipboard-data)
+         (w32-set-clipboard-data str-val)
+         (setq simpleclip-contents str-val))
+        ((fboundp 'x-set-selection)
+         (x-set-selection 'CLIPBOARD str-val))
+        (t
+         (error "Clipboard support not available")))
+    (error
+     (condition-case nil
+         (cond
+           ((eq system-type 'darwin)
+            (with-temp-buffer
+              (insert str-val)
+              (call-process-region (point-min) (point-max) "/usr/bin/pbcopy")))
+           ((eq system-type 'cygwin)
+            (with-temp-buffer
+              (insert str-val)
+              (call-process-region (point-min) (point-max) "putclip")))
+           ((memq system-type '(gnu gnu/linux gnu/kfreebsd))
+            (with-temp-buffer
+              (insert str-val)
+              (call-process-region (point-min) (point-max) "xsel" nil nil nil "--clipboard" "--input")))
+           (t
+            (error "Clipboard support not available")))
+       (error
+        (error "Clipboard support not available"))))))
+
 
 (defun evil-yank-advice (orig-func beg end &optional register yank-handler)
   (if (and register
@@ -156,8 +237,13 @@
 
 (defun evil-set-register-cliboard (register text)
   (when (memq register '(?+ ?*))
-    (funcall interprogram-cut-function text)
+    (simpleclip-set-contents text)
     t))
+
+(defun evil-get-register-cliboard (orig-func register)
+  (if (memq register '(?+ ?*))
+      (simpleclip-get-contents)
+    (funcall orig-func register)))
 
 (advice-add 'evil-yank-lines :around #'evil-yank-advice)
 (advice-add 'evil-yank-characters :around #'evil-yank-advice)
@@ -168,6 +254,7 @@
 (advice-add 'evil-visual-paste :around #'evil-paste-advice)
 
 (advice-add 'evil-set-register :before-until #'evil-set-register-cliboard)
+(advice-add 'evil-get-register :around #'evil-get-register-cliboard)
 (advice-add 'evil-visual-update-x-selection :override #'ignore)
 
 
