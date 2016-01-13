@@ -294,4 +294,6 @@
 
 ;;;;; Magit
 (use-package magit
-  :ensure t)
+  :ensure t
+  :bind
+  ("<f12>" . magit-status))

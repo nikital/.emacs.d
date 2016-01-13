@@ -4,7 +4,6 @@
     - [ ] Magit bind to leader
     - [ ] _ is a word bound
     - [ ] i_ctrl-p is not good enough (no popup, not vim like)
-    - [ ] i_ctrl-u not behaving like Vim? I'm not sure I want it.
     - [X] Surround
     - [ ] cgn
     - [ ] Fuzzy completions
@@ -20,7 +19,13 @@
     - [ ] Paredit overrides C-j in *scratch*
     - [ ] C-Backspace on an empty line should kill whitespace and not word?
     - [ ] Exit evil mode when entering edebug
+    - [ ] i_ctrl-u not behaving like Vim? I'm not sure I want it.
 
 * Learn
   - https://www.youtube.com/channel/UCDdsnYIWMsju4eomOZ1TgpA
   - Paredit
+  - What is the difference between save-excursion and with-current-buffer?
+  - unless vs or?
+       (or (bufferp buffer)
+           (setq buffer (get-buffer buffer)))
+
