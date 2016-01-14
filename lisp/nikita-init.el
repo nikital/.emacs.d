@@ -100,8 +100,8 @@
   (bind-key "C-u" 'nik--evil-c-u evil-insert-state-map)
   (bind-key "C-e" 'end-of-line evil-insert-state-map)
 
-  (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-normal-state-map))
-  (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-normal-state-map))
+  (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-motion-state-map))
+  (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-motion-state-map))
 
   (evil-mode t))
 
@@ -132,6 +132,10 @@
 
 (add-hook 'emacs-lisp-mode-hook 'nik--imenu-elisp-sections)
 (bind-key "M-i" 'helm-imenu)
+
+
+;;;;; ibuffer
+(bind-key "C-x C-b" 'ibuffer)
 
 
 ;;;;; Clipboard
@@ -273,7 +277,8 @@
   :config
   (add-hook 'lisp-mode-hook 'enable-paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode))
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (unbind-key "C-j" paredit-mode-map))
 
 (evil-define-operator evil-eval (beg end type)
   "Evals the code in motion"
