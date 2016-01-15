@@ -138,6 +138,12 @@
 (bind-key "C-x C-b" 'ibuffer)
 
 
+;;;;; Help
+(bind-key "C-h j f" 'find-function)
+(bind-key "C-h j v" 'find-variable)
+(bind-key "C-h a" 'helm-apropos)
+
+
 ;;;;; Clipboard
 
 ;; Evil mode clipboard behaves funny, because it works with the kill
