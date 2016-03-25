@@ -103,6 +103,18 @@
   (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-motion-state-map))
   (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-motion-state-map))
 
+  ;; Basic Hebrew support
+  (bind-key "ן" 'evil-insert evil-normal-state-map)
+  (bind-key "ם" 'evil-open-below evil-normal-state-map)
+  ; This overwrites recursive edit, but i'm not using it ATM
+  (bind-key "C-]" 'evil-normal-state evil-insert-state-map)
+  (bind-key "ו" 'undo evil-normal-state-map)
+
+  (bind-key "י" 'evil-backward-char evil-motion-state-map)
+  (bind-key "ח" 'evil-next-line evil-motion-state-map)
+  (bind-key "ל" 'evil-previous-line evil-motion-state-map)
+  (bind-key "ך" 'evil-forward-char evil-motion-state-map)
+
   (evil-mode t))
 
 (use-package evil-surround
