@@ -90,6 +90,18 @@
   (interactive)
   (evil-scroll-line-down 5))
 
+(defun nik--insert-blank-above (count)
+  (interactive "p")
+  (save-excursion
+    (move-beginning-of-line nil)
+    (insert-before-markers (make-string count ?\n))))
+
+(defun nik--insert-blank-below (count)
+  (interactive "p")
+  (save-excursion
+    (move-end-of-line nil)
+    (insert (make-string count ?\n))))
+
 (use-package evil
   :ensure t
   :init
@@ -114,6 +126,10 @@
   (bind-key "ח" 'evil-next-line evil-motion-state-map)
   (bind-key "ל" 'evil-previous-line evil-motion-state-map)
   (bind-key "ך" 'evil-forward-char evil-motion-state-map)
+
+  ;; vim-unimpaired
+  (bind-key "[ SPC" 'nik--insert-blank-above evil-normal-state-map)
+  (bind-key "] SPC" 'nik--insert-blank-below evil-normal-state-map)
 
   (evil-mode t))
 
