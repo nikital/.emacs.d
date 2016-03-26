@@ -1,6 +1,8 @@
 (provide 'nikita-init)
 
 ;;;;; Bootstrap
+(require 'cl)
+
 (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
 (defvar melpa-stable '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (defvar melpa '("melpa" . "https://melpa.org/packages/"))
@@ -102,6 +104,28 @@
     (move-end-of-line nil)
     (insert (make-string count ?\n))))
 
+(defun nik--evil-paste-above (count &optional register)
+  (interactive "p<x>")
+  (dotimes (i (or count 1))
+    (evil-insert-newline-above)
+    (evil-paste-before 1 register)
+    (evil-move-beginning-of-line)))
+
+(defun nik--evil-paste-below (count &optional register)
+  (interactive "p<x>")
+  (dotimes (i (or count 1))
+    (evil-insert-newline-below)
+    (evil-paste-after 1 register)
+    (evil-move-beginning-of-line)))
+
+(defun use-clipboard (f)
+  "Returns f with evil-this-register overwritten to the clipboard"
+  (lexical-let ((func f))
+    #'(lambda ()
+        (interactive)
+        (let ((evil-this-register ?+))
+          (call-interactively func)))))
+
 (use-package evil
   :ensure t
   :init
@@ -122,6 +146,9 @@
   (bind-key "C-]" 'evil-normal-state evil-insert-state-map)
   (bind-key "ו" 'undo evil-normal-state-map)
 
+  (bind-key "z p" (use-clipboard 'evil-paste-after) evil-normal-state-map)
+  (bind-key "z P" (use-clipboard 'evil-paste-before) evil-normal-state-map)
+
   (bind-key "י" 'evil-backward-char evil-motion-state-map)
   (bind-key "ח" 'evil-next-line evil-motion-state-map)
   (bind-key "ל" 'evil-previous-line evil-motion-state-map)
@@ -130,6 +157,10 @@
   ;; vim-unimpaired
   (bind-key "[ SPC" 'nik--insert-blank-above evil-normal-state-map)
   (bind-key "] SPC" 'nik--insert-blank-below evil-normal-state-map)
+  (bind-key "[ p" 'nik--evil-paste-above evil-normal-state-map)
+  (bind-key "] p" 'nik--evil-paste-below evil-normal-state-map)
+  (bind-key "z [ p" (use-clipboard 'nik--evil-paste-above) evil-normal-state-map)
+  (bind-key "z ] p" (use-clipboard 'nik--evil-paste-below) evil-normal-state-map)
 
   (evil-mode t))
 
