@@ -193,6 +193,14 @@
 (bind-key "M-i" 'helm-imenu)
 
 
+;;;;; dired
+(defun nik--dired-here ()
+  (interactive)
+  (dired "."))
+(bind-key "-" 'nik--dired-here evil-normal-state-map)
+(bind-key "-" 'dired-up-directory dired-mode-map)
+
+
 ;;;;; ibuffer
 (bind-key "C-x C-b" 'ibuffer)
 
