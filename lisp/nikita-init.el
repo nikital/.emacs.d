@@ -50,6 +50,7 @@
   (ido-everywhere)
   :bind
   ("C-x C-g" . ido-switch-buffer)
+  ("C-;" . ido-switch-buffer)
   ("C-x g" . ido-switch-buffer-other-window)
   ("C-x f" . ido-find-file-other-window))
 
@@ -182,7 +183,9 @@
   :ensure t
   :config
   (use-package helm-config)
-  (bind-key "M-x" 'helm-M-x))
+  :bind
+  ("M-x" . helm-M-x)
+  ("<f3>" . helm-for-files))
 
 
 ;;;;; imenu
@@ -197,8 +200,11 @@
 (defun nik--dired-here ()
   (interactive)
   (dired "."))
-(bind-key "-" 'nik--dired-here evil-normal-state-map)
-(bind-key "-" 'dired-up-directory dired-mode-map)
+
+(use-package dired
+  :config
+  (bind-key "-" 'nik--dired-here evil-normal-state-map)
+  (bind-key "-" 'dired-up-directory dired-mode-map))
 
 
 ;;;;; ibuffer
@@ -209,6 +215,19 @@
 (bind-key "C-h j f" 'find-function)
 (bind-key "C-h j v" 'find-variable)
 (bind-key "C-h a" 'helm-apropos)
+
+
+;;;;; Projectile
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode))
+
+(use-package helm-projectile
+  :ensure t
+  :config
+  (bind-key "C-p" 'helm-projectile evil-normal-state-map))
 
 
 ;;;;; Clipboard
