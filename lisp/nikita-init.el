@@ -131,6 +131,7 @@
   :ensure t
   :init
   (setq evil-want-fine-undo nil)
+  (setq evil-search-module 'evil-search)
   :config
   (bind-key "RET" 'save-buffer evil-normal-state-map)
   (bind-key "C-w q" 'evil-quit evil-normal-state-map)
@@ -394,3 +395,17 @@
   :ensure t
   :bind
   ("<f12>" . magit-status))
+
+
+;;;;; Company
+(use-package company
+  :ensure t
+  :init
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t)
+  (setq company-require-match nil)
+  :config
+  (global-company-mode)
+  (bind-key "<tab>" 'company-select-next company-active-map)
+  (bind-key "<backtab>" 'company-select-previous company-active-map))
