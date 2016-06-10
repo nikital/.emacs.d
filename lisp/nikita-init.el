@@ -34,9 +34,13 @@
 (setq apropos-sort-by-scores t)
 
 (setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 (setq sentence-end-double-space nil)
+(setq case-replace nil)
 
 (electric-pair-mode 1)
+
+(modify-syntax-entry ?_ "w" (standard-syntax-table))
 
 
 ;;;;; Ido
@@ -51,6 +55,7 @@
   :bind
   ("C-x C-g" . ido-switch-buffer)
   ("C-;" . ido-switch-buffer)
+  ("C-:" . ido-switch-buffer-other-window)
   ("C-x g" . ido-switch-buffer-other-window)
   ("C-x f" . ido-find-file-other-window))
 
@@ -127,6 +132,11 @@
         (let ((evil-this-register ?+))
           (call-interactively func)))))
 
+(defun ff-find-other-file-other-window ()
+  (interactive)
+  (save-selected-window
+   (ff-find-other-file t)))
+
 (use-package evil
   :ensure t
   :init
@@ -137,6 +147,8 @@
   (bind-key "C-w q" 'evil-quit evil-normal-state-map)
   (bind-key "C-u" 'nik--evil-c-u evil-insert-state-map)
   (bind-key "C-e" 'end-of-line evil-insert-state-map)
+  (bind-key "g o" 'ff-find-other-file evil-normal-state-map)
+  (bind-key "g O" 'ff-find-other-file-other-window evil-normal-state-map)
 
   (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-motion-state-map))
   (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-motion-state-map))
@@ -147,14 +159,16 @@
   ; This overwrites recursive edit, but i'm not using it ATM
   (bind-key "C-]" 'evil-normal-state evil-insert-state-map)
   (bind-key "ו" 'undo evil-normal-state-map)
-
-  (bind-key "z p" (use-clipboard 'evil-paste-after) evil-normal-state-map)
-  (bind-key "z P" (use-clipboard 'evil-paste-before) evil-normal-state-map)
-
   (bind-key "י" 'evil-backward-char evil-motion-state-map)
   (bind-key "ח" 'evil-next-line evil-motion-state-map)
   (bind-key "ל" 'evil-previous-line evil-motion-state-map)
   (bind-key "ך" 'evil-forward-char evil-motion-state-map)
+
+  (bind-key "C-x C-l" 'hippie-expand evil-insert-state-map)
+  (bind-key "C-l" 'hippie-expand evil-insert-state-map)
+
+  (bind-key "z p" (use-clipboard 'evil-paste-after) evil-normal-state-map)
+  (bind-key "z P" (use-clipboard 'evil-paste-before) evil-normal-state-map)
 
   ;; vim-unimpaired
   (bind-key "[ SPC" 'nik--insert-blank-above evil-normal-state-map)
@@ -364,6 +378,10 @@
   (exec-path-from-shell-copy-envs '("PATH")))
 
 
+;;;;; Server
+(server-start)
+
+
 ;;;;; Lisp, Paredit
 (use-package paredit
   :ensure t
@@ -386,6 +404,11 @@
 
 ;;;;; CC mode
 (use-package cc-mode
+  :init
+  (advice-add
+   'c-populate-syntax-table :after
+   (lambda (table)
+      (modify-syntax-entry ?_ "w" table)))
   :config
   (add-to-list 'c-default-style '(other . "stroustrup")))
 
@@ -405,7 +428,20 @@
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
   (setq company-require-match nil)
+  (setq company-dabbrev-ignore-case t)
   :config
+
+  ;; clang works really bad for some reasons, so I disable it for now...
+  (setq company-backends (delete 'company-clang company-backends))
+
   (global-company-mode)
   (bind-key "<tab>" 'company-select-next company-active-map)
-  (bind-key "<backtab>" 'company-select-previous company-active-map))
+  (bind-key "<backtab>" 'company-select-previous company-active-map)
+  (unbind-key "C-w" company-active-map))
+
+
+;;;;; Hippie expand
+(use-package hippie-exp
+  :config
+  (setq hippie-expand-try-functions-list
+        '(try-expand-line-all-buffers)))
