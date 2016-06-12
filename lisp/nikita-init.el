@@ -456,10 +456,11 @@
       (with-current-buffer buf
         (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
           (hi-lock-unface-buffer (car pattern)))
-        (hi-lock-face-buffer symbol-regexp)))))
+        (hi-lock-face-buffer symbol-regexp 'hi-blue)))))
 
 (defun unhighlight-all-buffers ()
   (interactive)
+  (evil-ex-nohighlight)
   (dolist (buf (buffer-list))
     (with-current-buffer buf
       (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
