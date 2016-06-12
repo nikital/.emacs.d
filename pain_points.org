@@ -1,25 +1,23 @@
-* Pain points [6/21]
+* Pain points [7/19]
     - [X] Helm
     - [X] Magit
     - [ ] i_ctrl-p is not good enough (no popup, not vim like)
     - [X] Surround
-    - [ ] n
     - [ ] Fuzzy completions
     - [ ] c-s doesn't feel nice when wrapping
-    - [ ] My whole thing with hlsearch
+    - [X] My whole thing with hlsearch
     - [ ] Company mode? Autocompete? Probably company because spacemacs uses it
     - [X] {} should autocomplete
     - [ ] gp, gP
     - [X] registers
     - [ ] `" (go to last place in file)
-    - [ ] _ is a word bound
-    - [ ] this.mecha completes to this.Mechanics. I don't want capitalitation.
     - [ ] comments (t-comment?)
     - [ ] Folding (zf)
     - [X] Paredit overrides C-j in *scratch*
     - [ ] C-Backspace on an empty line should kill whitespace and not word?
     - [ ] Exit evil mode when entering edebug
     - [ ] i_ctrl-u not behaving like Vim? I'm not sure I want it.
+    - [ ] electric-pair mode shouldn't complete ( and "
 
 * Learn
   - https://www.youtube.com/channel/UCDdsnYIWMsju4eomOZ1TgpA

@@ -445,3 +445,25 @@
   :config
   (setq hippie-expand-try-functions-list
         '(try-expand-line-all-buffers)))
+
+
+;;;;; Highlight with space
+
+(defun highlight-symbol-at-point-all-buffers ()
+  (interactive)
+  (let ((symbol-regexp (find-tag-default-as-symbol-regexp)))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
+          (hi-lock-unface-buffer (car pattern)))
+        (hi-lock-face-buffer symbol-regexp)))))
+
+(defun unhighlight-all-buffers ()
+  (interactive)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
+        (hi-lock-unface-buffer (car pattern))))))
+
+(bind-key "<SPC>" 'highlight-symbol-at-point-all-buffers evil-normal-state-map)
+(bind-key "<DEL>" 'unhighlight-all-buffers evil-normal-state-map)
