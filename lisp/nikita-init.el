@@ -43,6 +43,14 @@
 (modify-syntax-entry ?_ "w" (standard-syntax-table))
 
 
+;;;;; Generic
+
+(defun quit-other-window (&optional kill)
+  (interactive)
+  (quit-window kill (next-window)))
+(bind-key "<f7>" 'quit-other-window)
+
+
 ;;;;; Ido
 (use-package ido
   :demand
