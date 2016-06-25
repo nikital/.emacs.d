@@ -477,3 +477,9 @@
 
 (bind-key "<SPC>" 'highlight-symbol-at-point-all-buffers evil-normal-state-map)
 (bind-key "<DEL>" 'unhighlight-all-buffers evil-normal-state-map)
+
+
+;;;;; GNU Global
+
+(use-package ggtags
+  :ensure t)
