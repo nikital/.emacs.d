@@ -448,7 +448,8 @@
 (use-package hippie-exp
   :config
   (setq hippie-expand-try-functions-list
-        '(try-expand-line-all-buffers)))
+        '(try-expand-line
+          try-expand-line-all-buffers)))
 
 
 ;;;;; Highlight with space
