@@ -88,10 +88,6 @@
             (find-file-existing "~/.emacs.d/lisp/nikita-init.el")
             (helm-imenu)))
 
-(bind-key "C-c p"
-	  (lambda () (interactive)
-            (find-file-existing "~/.emacs.d/pain_points.org")))
-
 
 ;;;;; Evil
 
