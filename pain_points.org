@@ -1,4 +1,4 @@
-* Pain points [7/20]
+* Pain points [7/21]
     - [X] Helm
     - [X] Magit
     - [ ] i_ctrl-p is not good enough (no popup, not vim like)
@@ -19,6 +19,7 @@
     - [ ] i_ctrl-u not behaving like Vim? I'm not sure I want it.
     - [ ] electric-pair mode shouldn't complete ( and "
     - [ ] hippie expand isn't reliable
+    - [ ] long jk should be saved to jumplist
 
 * Learn
   - https://www.youtube.com/channel/UCDdsnYIWMsju4eomOZ1TgpA

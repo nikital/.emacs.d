@@ -460,7 +460,8 @@
 (defun highlight-symbol-at-point-all-buffers ()
   (interactive)
   (let ((symbol-regexp (find-tag-default-as-symbol-regexp)))
-    (setq evil-ex-search-pattern (list symbol-regexp t t))
+    (setq evil-ex-search-pattern (list symbol-regexp t t)
+          evil-ex-search-direction 'forward)
     (dolist (buf (buffer-list))
       (with-current-buffer buf
         (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
