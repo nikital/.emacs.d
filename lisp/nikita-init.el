@@ -354,10 +354,10 @@
     (simpleclip-set-contents text)
     t))
 
-(defun evil-get-register-cliboard (orig-func register)
+(defun evil-get-register-cliboard (orig-func register &optional noerror)
   (if (memq register '(?+ ?*))
       (simpleclip-get-contents)
-    (funcall orig-func register)))
+    (funcall orig-func register noerror)))
 
 (advice-add 'evil-yank-lines :around #'evil-yank-advice)
 (advice-add 'evil-yank-characters :around #'evil-yank-advice)
