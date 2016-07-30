@@ -203,8 +203,7 @@
   :config
   (use-package helm-config)
   :bind
-  ("M-x" . helm-M-x)
-  ("<f3>" . helm-for-files))
+  ("M-x" . helm-M-x))
 
 
 ;;;;; imenu
