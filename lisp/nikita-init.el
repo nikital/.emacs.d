@@ -141,13 +141,17 @@
   (save-selected-window
    (ff-find-other-file t)))
 
+(defun save-some-buffers-no-confirm ()
+  (interactive)
+  (save-some-buffers 'no-confirm))
+
 (use-package evil
   :ensure t
   :init
   (setq evil-want-fine-undo nil)
   (setq evil-search-module 'evil-search)
   :config
-  (bind-key "RET" 'save-buffer evil-normal-state-map)
+  (bind-key "RET" 'save-some-buffers-no-confirm evil-normal-state-map)
   (bind-key "C-w q" 'evil-quit evil-normal-state-map)
   (bind-key "C-u" 'nik--evil-c-u evil-insert-state-map)
   (bind-key "C-e" 'end-of-line evil-insert-state-map)
@@ -476,7 +480,14 @@
 (bind-key "<DEL>" 'unhighlight-all-buffers evil-normal-state-map)
 
 
-;;;;; GNU Global
+;;;;; GNU Global ggtags
 
 (use-package ggtags
+  :ensure t
+  :config
+  (bind-key "C-]" 'ggtags-find-tag-dwim evil-normal-state-map))
+
+
+;;;;; Cmake
+(use-package cmake-mode
   :ensure t)
