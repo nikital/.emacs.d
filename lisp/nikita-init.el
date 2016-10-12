@@ -37,6 +37,7 @@
 (setq-default tab-width 4)
 (setq sentence-end-double-space nil)
 (setq case-replace nil)
+(setq vc-follow-symlinks t)
 
 (electric-pair-mode 1)
 
@@ -456,7 +457,6 @@
 
 
 ;;;;; Highlight with space
-
 (defun highlight-symbol-at-point-all-buffers ()
   (interactive)
   (let ((symbol-regexp (find-tag-default-as-symbol-regexp)))
@@ -481,7 +481,6 @@
 
 
 ;;;;; GNU Global ggtags
-
 (use-package ggtags
   :ensure t
   :config
@@ -491,3 +490,23 @@
 ;;;;; Cmake
 (use-package cmake-mode
   :ensure t)
+
+
+;;;;; Wiki
+(defvar wiki-root (expand-file-name "~/wiki/"))
+
+(defun wiki-commit ()
+  (interactive)
+  (if (string-prefix-p
+       wiki-root
+       (expand-file-name default-directory))
+      (async-shell-command "git add -A && git commit -m . && git push")
+    (error "Not on a wiki buffer")))
+
+(defun wiki-helm-find-file ()
+  (interactive)
+  (let ((default-directory wiki-root))
+    (helm-projectile-find-file)))
+
+(bind-key "<C-f12>" 'wiki-commit)
+(bind-key "C-c w" 'wiki-helm-find-file)
