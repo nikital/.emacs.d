@@ -480,8 +480,8 @@
       (dolist (pattern (bound-and-true-p hi-lock-interactive-patterns))
         (hi-lock-unface-buffer (car pattern))))))
 
-(bind-key "<SPC>" 'highlight-symbol-at-point-all-buffers evil-normal-state-map)
-(bind-key "<DEL>" 'unhighlight-all-buffers evil-normal-state-map)
+(evil-declare-not-repeat (bind-key "<SPC>" 'highlight-symbol-at-point-all-buffers evil-normal-state-map))
+(evil-declare-not-repeat (bind-key "<DEL>" 'unhighlight-all-buffers evil-normal-state-map))
 
 
 ;;;;; GNU Global ggtags
