@@ -52,6 +52,10 @@
 (bind-key "<f7>" 'quit-other-window)
 
 
+;;;;; Mode line
+(column-number-mode t)
+
+
 ;;;;; Ido
 (use-package ido
   :demand
@@ -510,3 +514,18 @@
 
 (bind-key "<C-f12>" 'wiki-commit)
 (bind-key "C-c w" 'wiki-helm-find-file)
+
+
+;;;;; Dash
+(use-package helm-dash
+  :ensure t
+  :init
+  (setq helm-dash-common-docsets
+        '("Python 3"
+          "Python_2"
+          "wxWidgets"
+          "C++"))
+  :config
+  (bind-key "g <f1>" 'helm-dash-at-point evil-normal-state-map)
+  :bind
+  (("<f1>" . helm-dash)))
