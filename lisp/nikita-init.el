@@ -141,10 +141,13 @@
         (let ((evil-this-register ?+))
           (call-interactively func)))))
 
+;; (defun ff-find-other-file-other-window ()
+;;   (interactive)
+;;   (save-selected-window
+;;    (ff-find-other-file t)))
 (defun ff-find-other-file-other-window ()
   (interactive)
-  (save-selected-window
-   (ff-find-other-file t)))
+  (ff-find-other-file t))
 
 (defun save-some-buffers-no-confirm ()
   (interactive)
@@ -444,7 +447,10 @@
   :config
 
   ;; clang works really bad for some reasons, so I disable it for now...
-  (setq company-backends (delete 'company-clang company-backends))
+  (setq company-bad-backends '(company-clang company-gtags company-etags))
+  (setq company-backends (seq-remove
+                          (lambda (elt) (member elt company-bad-backends))
+                          company-backends))
 
   (global-company-mode)
   (bind-key "<tab>" 'company-select-next company-active-map)
@@ -524,8 +530,14 @@
         '("Python 3"
           "Python_2"
           "wxWidgets"
-          "C++"))
+          "C++"
+          "C"))
   :config
   (bind-key "g <f1>" 'helm-dash-at-point evil-normal-state-map)
   :bind
   (("<f1>" . helm-dash)))
+
+
+;;;;; Typescript
+(use-package typescript-mode
+  :ensure t)
