@@ -539,7 +539,7 @@
   :init
   (setq helm-dash-common-docsets
         '("Python 3"
-          "Python_2"
+          "Python 2"
           "wxWidgets"
           "C++"
           "C"))
