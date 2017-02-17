@@ -66,10 +66,8 @@
   (ido-mode t)
   (ido-everywhere)
   :bind
-  ("C-x C-g" . ido-switch-buffer)
   ("C-;" . ido-switch-buffer)
   ("C-:" . ido-switch-buffer-other-window)
-  ("C-x g" . ido-switch-buffer-other-window)
   ("C-x f" . ido-find-file-other-window))
 
 
