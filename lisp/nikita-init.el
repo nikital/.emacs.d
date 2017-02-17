@@ -444,16 +444,29 @@
   (setq company-dabbrev-ignore-case t)
   :config
 
-  ;; clang works really bad for some reasons, so I disable it for now...
-  (setq company-bad-backends '(company-clang company-gtags company-etags))
-  (setq company-backends (seq-remove
-                          (lambda (elt) (member elt company-bad-backends))
-                          company-backends))
-
   (global-company-mode)
+  (add-hook 'evil-insert-state-exit-hook 'company-cancel)
   (bind-key "<tab>" 'company-select-next company-active-map)
   (bind-key "<backtab>" 'company-select-previous company-active-map)
   (unbind-key "C-w" company-active-map))
+
+
+;;;;; Irony
+(use-package irony
+  :ensure t
+  :init
+  (setq irony-cdb-search-directory-list '("." "build" "out"))
+  :config
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'c++-mode-hook 'irony-mode))
+
+(use-package company-irony
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-irony))
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (advice-add 'company-irony--post-completion :override 'ignore))
 
 
 ;;;;; Hippie expand
