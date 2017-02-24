@@ -157,12 +157,12 @@
   (setq evil-want-fine-undo nil)
   (setq evil-search-module 'evil-search)
   :config
-  (bind-key "RET" 'save-some-buffers-no-confirm evil-normal-state-map)
-  (bind-key "C-w q" 'evil-quit evil-normal-state-map)
+  (evil-declare-not-repeat (bind-key "RET" 'save-some-buffers-no-confirm evil-normal-state-map))
+  (evil-declare-not-repeat (bind-key "C-w q" 'evil-quit evil-normal-state-map))
   (bind-key "C-u" 'nik--evil-c-u evil-insert-state-map)
-  (bind-key "C-e" 'end-of-line evil-insert-state-map)
-  (bind-key "g o" 'ff-find-other-file evil-normal-state-map)
-  (bind-key "g O" 'ff-find-other-file-other-window evil-normal-state-map)
+  (evil-declare-not-repeat (bind-key "C-e" 'end-of-line evil-insert-state-map))
+  (evil-declare-not-repeat (bind-key "g o" 'ff-find-other-file evil-normal-state-map))
+  (evil-declare-not-repeat (bind-key "g O" 'ff-find-other-file-other-window evil-normal-state-map))
 
   (evil-declare-not-repeat (bind-key "C-k" 'nik--evil-scroll-up evil-motion-state-map))
   (evil-declare-not-repeat (bind-key "C-j" 'nik--evil-scroll-down evil-motion-state-map))
