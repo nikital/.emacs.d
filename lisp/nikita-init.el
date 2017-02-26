@@ -625,3 +625,8 @@
 ;;;;; Typescript
 (use-package typescript-mode
   :ensure t)
+
+
+;;;;; Go
+(use-package go-mode
+  :ensure t)
