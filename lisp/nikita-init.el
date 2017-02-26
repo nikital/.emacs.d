@@ -510,10 +510,13 @@
 
   (global-company-mode)
   (add-hook 'evil-insert-state-exit-hook 'company-cancel)
+  (unbind-key "<return>" company-active-map)
+  (unbind-key "RET" company-active-map)
+  (unbind-key "<tab>" company-active-map)
+  (unbind-key "TAB" company-active-map)
   (bind-key "<tab>" 'company-simple-complete-next company-active-map)
   (bind-key "<backtab>" 'company-simple-complete-previous company-active-map)
   (unbind-key "C-w" company-active-map)
-  (unbind-key "<return>" company-active-map)
 
   (ad-activate 'company-set-selection)
   (ad-activate 'company-tooltip--simple-update-offset)
