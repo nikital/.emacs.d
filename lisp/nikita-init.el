@@ -616,7 +616,6 @@
           "wxWidgets"
           "C++"
           "C"))
-  :config
   (bind-key "g <f1>" 'helm-dash-at-point evil-normal-state-map)
   :bind
   (("<f1>" . helm-dash)))
