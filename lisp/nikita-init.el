@@ -625,6 +625,16 @@
 (use-package typescript-mode
   :ensure t)
 
+(use-package tide
+  :ensure t
+  :init
+
+  (defun tide-setup-hook ()
+    (tide-setup)
+    (flycheck-mode)
+    (eldoc-mode +1))
+  (add-hook 'typescript-mode-hook 'tide-setup-hook))
+
 
 ;;;;; Go
 (use-package go-mode
