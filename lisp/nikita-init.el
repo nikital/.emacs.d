@@ -514,8 +514,10 @@
   (unbind-key "RET" company-active-map)
   (unbind-key "<tab>" company-active-map)
   (unbind-key "TAB" company-active-map)
-  (bind-key "<tab>" 'company-simple-complete-next company-active-map)
-  (bind-key "<backtab>" 'company-simple-complete-previous company-active-map)
+  (evil-declare-change-repeat
+   (bind-key "<tab>" 'company-simple-complete-next company-active-map))
+  (evil-declare-change-repeat
+   (bind-key "<backtab>" 'company-simple-complete-previous company-active-map))
   (unbind-key "C-w" company-active-map)
 
   (ad-activate 'company-set-selection)
