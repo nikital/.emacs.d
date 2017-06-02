@@ -199,6 +199,11 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package evil-vimish-fold
+  :ensure t
+  :config
+  (evil-vimish-fold-mode 1))
+
 
 ;;;;; Graphics, Theme
 (load-theme 'tango-dark)
