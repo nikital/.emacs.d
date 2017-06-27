@@ -434,6 +434,8 @@
 ;;;;; Magit
 (use-package magit
   :ensure t
+  :config
+  (add-hook 'magit-status-mode-hook (lambda () (linum-relative-mode 0)))
   :bind
   ("<f12>" . magit-status))
 
